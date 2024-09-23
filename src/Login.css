@@ -1,0 +1,24 @@
+/* Centrar el formulario de login */
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Estilos para el botón de inicio de sesión */
+button {
+  width: 100%;
+  padding: 10px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 576px) {
+  .container {
+    padding: 10px;
+  }
+}

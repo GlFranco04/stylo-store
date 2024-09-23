@@ -1,13 +1,40 @@
+/* src/index.css */
+
+/* Tema claro (por defecto) */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: white;
+  color: black;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Tema oscuro */
+body.dark-mode {
+  background-color: #121212;
+  color: white;
+}
+
+/* Estilos adicionales */
+.navbar {
+  padding: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+}
+
+.dark-mode button {
+  background-color: white;
+  color: black;
+}
+
+button {
+  background-color: black;
+  color: rgb(255, 255, 255);
+}
+/* Posicionar el botón en la parte superior derecha */
+.theme-toggle-btn {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000; /* Asegúrate de que el botón esté por encima de otros elementos */
 }
