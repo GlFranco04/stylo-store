@@ -24,14 +24,34 @@
 
 // export default App;
 
+// // // // import React from 'react';
+// // // // import ProductoList from './pages/ProductoList';
+
+// // // // function App() {
+// // // //   return (
+// // // //     <div className="App">
+// // // //       <ProductoList />
+// // // //     </div>
+// // // //   );
+// // // // }
+
+// // // // export default App;
+
+// src/App.js
+
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ProductoList from './pages/ProductoList';
+import Login from './pages/Login';
 
 function App() {
   return (
-    <div className="App">
-      <ProductoList />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/producto" element={<ProductoList />} />
+      </Routes>
+    </Router>
   );
 }
 

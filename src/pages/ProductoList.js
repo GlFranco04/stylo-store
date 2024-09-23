@@ -23,7 +23,7 @@ function ProductoList() {
         {productos.length > 0 ? (
           productos.map(producto => (
             <li key={producto.id}>           
-              {producto.id} - {producto.nombre} - {producto.descripcion} - ${producto.precio}
+              {producto.id} - {producto.nombre} - {producto.descripcion}
             </li>
           ))
         ) : (
