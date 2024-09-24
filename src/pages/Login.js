@@ -20,13 +20,11 @@ function Login() {
         correo: email,
         contrasena: password
       });
-      console.log('Login con:', email, password);
       // Una vez autenticado, redirige a la página principal
       navigate('/dashboard');
       // Guarda el token en el localStorage
       const token = response.data.jwt;
       localStorage.setItem('token', token);  // Guarda el token para futuras peticiones
-      console.log('Token guardado:', token);
 
     } catch (error) {
       // Manejo del error, muestra un mensaje al usuario

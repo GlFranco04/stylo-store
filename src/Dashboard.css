@@ -26,6 +26,7 @@
 
 .sidebar ul li {
   margin: 15px 0;
+  cursor: pointer;
 }
 
 .sidebar ul li a {
@@ -77,6 +78,12 @@
 /* Ajuste cuando el sidebar está cerrado */
 .sidebar.closed ~ .main-content {
   margin-left: 0;
+}
+
+/* Submenu para la sección de perfil */
+.submenu {
+  list-style: none;
+  padding-left: 20px;
 }
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */

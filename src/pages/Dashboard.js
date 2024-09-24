@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import '../Dashboard.css';
+import { useNavigate } from 'react-router-dom';
 
 function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // Estado para el submenu de perfil
+  const navigate = useNavigate();
 
   // Función para alternar la visibilidad del sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Elimina el token
+    navigate('/login'); // Redirige al login
   };
 
   return (
@@ -20,7 +29,16 @@ function Dashboard() {
           <li><a href="/gestion-usuario">Gestionar Usuario</a></li>
           <li><a href="/gestion-rol">Gestionar Rol</a></li>
           <li><a href="/gestion-permisos">Gestionar Permisos</a></li>
-          {/* Agregar más enlaces según sea necesario */}
+          {/* Sección de perfil */}
+          <li onClick={() => setIsProfileOpen(!isProfileOpen)}>
+            Perfil {isProfileOpen ? '▲' : '▼'}
+          </li>
+          {isProfileOpen && (
+            <ul className="submenu">
+              <li><a href="/mi-perfil">Mi Perfil</a></li>
+              <li onClick={() => handleLogout()}>Cerrar Sesión</li>
+            </ul>
+          )}
         </ul>
       </div>
 
