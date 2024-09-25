@@ -28,7 +28,11 @@ const actualizarUsuario = (id, usuario) => {
   return axios.put(`${API_URL}/${id}`, usuario, config);
 };
 
-const eliminarUsuario = (id) => {
+const desactivarUsuario = (id) => {
+  return axios.patch(`${API_URL}/${id}`, {},config);
+};
+
+const EliminarUsuario = (id) => {
   return axios.delete(`${API_URL}/${id}`, config);
 };
 
@@ -37,5 +41,6 @@ export default {
   crearUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
-  eliminarUsuario 
+  desactivarUsuario,
+  EliminarUsuario
 };

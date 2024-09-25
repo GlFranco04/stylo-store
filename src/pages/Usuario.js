@@ -39,6 +39,16 @@ function GestionarUsuarios() {
   const handleCrearUsuario = () => {
     navigate('/crear-usuario');  // Redirige a la página de crear usuario
   };
+  const handleDesactivarUsuario = (id) => {
+    UsuarioService.desactivarUsuario(id)
+      .then(response => {
+        console.log('Usuario desactivado:', response.data);
+        window.location.reload();  // Refrescar la página
+      })
+      .catch(error => {
+        console.error('Error al desactivar el usuario:', error);
+      });
+  };
 
   return (
     <div className="main-container">
@@ -69,7 +79,12 @@ function GestionarUsuarios() {
                   {userRole === 'SuperUsuario' && (
                     <td>
                       <button className="btn btn-warning">EDITAR</button>
-                      <button className="btn btn-danger">ELIMINAR</button>
+                      <button 
+                        className="btn btn-danger" 
+                        onClick={() => handleDesactivarUsuario(usuario.id)}
+                      >
+                        Activar/Desactivar
+                      </button>
                     </td>
                   )}
                 </tr>
