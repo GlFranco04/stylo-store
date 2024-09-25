@@ -1,105 +1,320 @@
 import React, { useEffect, useState } from 'react';
 import AuthService from '../services/AuthService';  // Para obtener el rol del usuario
 import UsuarioService from '../services/UsuarioService'; // Un servicio para manejar los usuarios
+import RolService from '../services/RolService';  // Servicio para manejar roles
 import Sidebar from '../components/Sidebar';  // Importamos el Sidebar
-import '../styles/Usuario.css';  // Estilos específicos del Dashboard
 import { useNavigate } from 'react-router-dom';
-import "../styles/Theme.css";
+import { Modal, Button } from 'react-bootstrap';  // Importar Modal de Bootstrap
+import '../styles/Usuario.css';  // Estilos específicos del Dashboard
 
 function GestionarUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
-  const [loading, setLoading] = useState(true); // Para manejar el estado de carga
+  const [loading, setLoading] = useState(true);
+  const [selectedUsuario, setSelectedUsuario] = useState(null);  // Usuario seleccionado para editar
+  const [showEditModal, setShowEditModal] = useState(false);  // Estado para controlar el modal de edición
+  const [showCreateModal, setShowCreateModal] = useState(false);  // Estado para controlar el modal de creación
+  const [roles, setRoles] = useState([]);  // Almacenar los roles
+  const [nuevoUsuario, setNuevoUsuario] = useState({
+    nombre: '',
+    apellido: '',
+    correo: '',
+    contrasena: '',
+    sexo: 'M',
+    rol: null,
+    estaActivo: true  // Siempre por defecto en true
+  });
   const userRole = AuthService.getRoleFromToken();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Llamada al servicio para obtener la lista de usuarios
     UsuarioService.obtenerUsuarios()
       .then(response => {
         setUsuarios(response.data);
-        setLoading(false); // Cambia el estado de carga
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error al obtener los usuarios:', error);
-        setLoading(false); // Asegúrate de detener el estado de carga
+        setLoading(false);
       });
+
+    // Cargar los roles
+    RolService.obtenerRoles()
+      .then(response => setRoles(response.data))
+      .catch(error => console.error('Error al obtener roles', error));
   }, []);
 
-  // Mostrar un mensaje mientras los datos se están cargando
-  if (loading) {
-    return <div>Cargando usuarios...</div>;
-  }
-
-  // Si no hay usuarios, muestra un mensaje
-  if (!usuarios || usuarios.length === 0) {
-    return <div>No se encontraron usuarios.</div>;
-  }
-
-  // Función para redirigir a la página de crear usuario
-  const handleCrearUsuario = () => {
-    navigate('/crear-usuario');  // Redirige a la página de crear usuario
+  const handleEditarUsuario = (usuario) => {
+    setSelectedUsuario(usuario);  // Selecciona el usuario a editar
+    setShowEditModal(true);  // Muestra el modal
   };
+
+  const handleGuardarCambios = () => {
+    UsuarioService.actualizarUsuario(selectedUsuario.id, selectedUsuario)
+      .then(response => {
+        console.log('Usuario actualizado:', response.data);
+        setShowEditModal(false);  // Cierra el modal
+        window.location.reload();  // Refrescar la página
+      })
+      .catch(error => {
+        console.error('Error al actualizar el usuario:', error);
+      });
+  };
+
+  const handleCrearUsuario = (e) => {
+    e.preventDefault();
+    
+    if (!nuevoUsuario.rol) {
+      alert('Por favor, selecciona un rol antes de continuar.');
+      return;
+    }
+  
+    UsuarioService.crearUsuarios(nuevoUsuario)
+      .then(response => {
+        console.log('Usuario creado exitosamente:', response.data);
+        window.location.reload();  // Recargar la página después de crear
+      })
+      .catch(error => {
+        console.error('Error al crear el usuario:', error);
+      });
+  };
+  
+
+  const handleInputChange = (e, isCreate = false) => {
+    const { name, value } = e.target;
+    if (name === "rol") {
+      const rolSeleccionado = roles.find(rol => rol.id === parseInt(value));
+      if (isCreate) {
+        setNuevoUsuario({ ...nuevoUsuario, rol: rolSeleccionado });
+      } else {
+        setSelectedUsuario({ ...selectedUsuario, rol: rolSeleccionado });
+      }
+    } else {
+      if (isCreate) {
+        setNuevoUsuario({ ...nuevoUsuario, [name]: value });
+      } else {
+        setSelectedUsuario({ ...selectedUsuario, [name]: value });
+      }
+    }
+  };
+
   const handleDesactivarUsuario = (id) => {
     UsuarioService.desactivarUsuario(id)
       .then(response => {
         console.log('Usuario desactivado:', response.data);
-        window.location.reload();  // Refrescar la página
+        window.location.reload();
       })
       .catch(error => {
         console.error('Error al desactivar el usuario:', error);
       });
   };
 
+  if (loading) {
+    return <div>Cargando usuarios...</div>;
+  }
+
   return (
     <div className="main-container">
-      <Sidebar /> {/* Sidebar separado como componente */}
+      <Sidebar />
       <div className="main-content">
         <h1>Gestión de Usuarios</h1>
         <table className="table">
           <thead>
             <tr>
-              <th className='col_id'>Id</th>
+              <th>Id</th>
               <th>Nombre</th>
               <th>Correo</th>
-              <th className='col_rol'>Rol</th>
-              <th className='col_estado'>Estado</th> {/* Nueva columna para el estado */}
+              <th>Rol</th>
+              <th>Estado</th>
               {userRole === 'SuperUsuario' && <th>Acciones</th>}
             </tr>
           </thead>
           <tbody>
             {usuarios.map(usuario => (
-              usuario && ( // Asegúrate de que el usuario no sea null o undefined
-                <tr key={usuario.id}>
-                  <th className='col_id'>{usuario.id}</th>
-                  <td>{usuario.nombre + " " + usuario.apellido}</td>
-                  <td>{usuario.correo}</td>
-                  <td className='col_rol'>{usuario.rol.nombre}</td>
-                  {/* Columna para mostrar el estado */}
-                  <td className='col_estado'>{usuario.estaActivo ? 'Activo' : 'No Activo'}</td>
-                  {userRole === 'SuperUsuario' && (
-                    <td>
-                      <button className="btn btn-warning">EDITAR</button>
-                      <button 
-                        className="btn btn-danger" 
-                        onClick={() => handleDesactivarUsuario(usuario.id)}
-                      >
-                        Activar/Desactivar
-                      </button>
-                    </td>
-                  )}
-                </tr>
-              )
+              <tr key={usuario.id}>
+                <td>{usuario.id}</td>
+                <td>{usuario.nombre} {usuario.apellido}</td>
+                <td>{usuario.correo}</td>
+                <td>{usuario.rol.nombre}</td>
+                <td>{usuario.estaActivo ? 'Activo' : 'No Activo'}</td>
+                {userRole === 'SuperUsuario' && (
+                  <td>
+                    <button className="btn btn-warning" onClick={() => handleEditarUsuario(usuario)}>Editar</button>
+                    <button className="btn btn-danger" onClick={() => handleDesactivarUsuario(usuario.id)}>Activar/Desactivar</button>
+                  </td>
+                )}
+              </tr>
             ))}
           </tbody>
         </table>
         {userRole === 'SuperUsuario' && (
-          <button 
-            className="btn btn-primary" 
-            onClick={handleCrearUsuario}>
-            Crear Usuario
-          </button>
+          <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>Crear Usuario</button>
         )}
       </div>
+
+      {/* Modal para editar usuario */}
+      <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedUsuario && (
+            <form>
+              <div className="form-group">
+                <label>Nombre:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="nombre"
+                  value={selectedUsuario.nombre}
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Apellido:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="apellido"
+                  value={selectedUsuario.apellido}
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Correo:</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  name="correo"
+                  value={selectedUsuario.correo}
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+              <div className="form-group">
+                <label>Sexo:</label>
+                <select
+                  className="form-control"
+                  name="sexo"
+                  value={selectedUsuario.sexo}
+                  onChange={(e) => handleInputChange(e)}
+                >
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Rol:</label>
+                <select
+                  className="form-control"
+                  name="rol"
+                  value={selectedUsuario.rol.id}  // Asegúrate de que el valor es el id del rol
+                  onChange={(e) => handleInputChange(e)}
+                >
+                  {roles.map(rol => (
+                    <option key={rol.id} value={rol.id}>
+                      {rol.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </form>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowEditModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleGuardarCambios}>
+            Guardar cambios
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal para crear usuario */}
+      <Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Crear Nuevo Usuario</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                className="form-control"
+                name="nombre"
+                value={nuevoUsuario.nombre}
+                onChange={(e) => handleInputChange(e, true)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Apellido:</label>
+              <input
+                type="text"
+                className="form-control"
+                name="apellido"
+                value={nuevoUsuario.apellido}
+                onChange={(e) => handleInputChange(e, true)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Correo:</label>
+              <input
+                type="email"
+                className="form-control"
+                name="correo"
+                value={nuevoUsuario.correo}
+                onChange={(e) => handleInputChange(e, true)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Contraseña:</label>
+              <input
+                type="password"
+                className="form-control"
+                name="contrasena"
+                value={nuevoUsuario.contrasena}
+                onChange={(e) => handleInputChange(e, true)}
+              />
+            </div>
+            <div className="form-group">
+              <label>Sexo:</label>
+              <select
+                className="form-control"
+                name="sexo"
+                value={nuevoUsuario.sexo}
+                onChange={(e) => handleInputChange(e, true)}
+              >
+                <option value="M">Masculino</option>
+                <option value="F">Femenino</option> 
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Rol:</label>
+              <select
+                className="form-control"
+                name="rol"
+                value={nuevoUsuario.rol ? nuevoUsuario.rol.id : ''}  // Asegura que el valor coincida con el rol seleccionado
+                onChange={(e) => handleInputChange(e, true)}  // Marca el cambio para rol
+              >
+                <option value="">------</option>
+                {roles.map(rol => (
+                  <option key={rol.id} value={rol.id}>
+                    {rol.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowCreateModal(false)}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleCrearUsuario}>
+            Crear Usuario
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

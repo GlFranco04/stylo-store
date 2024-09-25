@@ -34,3 +34,12 @@
   color: rgb(255, 255, 255)  !important;
   border-color: white;
 }
+
+.dark-mode .form-group {
+  background-color: #131212 !important; /* Color de fondo en modo oscuro */
+  color: rgb(255, 255, 255) !important;
+  
+}
+.dark-mode .modal{
+  color: #000000 !important;
+}

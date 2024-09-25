@@ -9,7 +9,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import GestionUsuarios from './pages/Usuario';
 import GestionPermisos from './pages/Permiso';
 import GestionRoles from './pages/Rol';
-import CrearUsuario from './pages/CrearUsuario';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 function App() {
   return (
@@ -23,7 +24,6 @@ function App() {
             <Route path="/gestion-usuario" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionUsuarios />} />} />
             <Route path="/gestion-rol" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionRoles />} />} />
             <Route path="/gestion-permiso" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionPermisos />} />} />
-            <Route path="/crear-usuario" element={<ProtectedRoute roles={['SuperUsuario']} element={<CrearUsuario />} />} />
           </Routes>
         </div>
       </Router>
