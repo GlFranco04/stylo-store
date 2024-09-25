@@ -4,6 +4,7 @@ import UsuarioService from '../services/UsuarioService'; // Un servicio para man
 import Sidebar from '../components/Sidebar';  // Importamos el Sidebar
 import '../styles/Usuario.css';  // Estilos específicos del Dashboard
 import { useNavigate } from 'react-router-dom';
+import "../styles/Theme.css";
 
 function GestionarUsuarios() {
   const [usuarios, setUsuarios] = useState([]);

@@ -17,12 +17,31 @@
   margin-left: 0;
 }
 
-/* Estilos generales para los botones */
-.btn-warning, .btn-danger, .btn-primary {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 5px;
-  color: #000000 !important;
+/* Estilos para la tabla en modo claro */
+.table {
+  background-color: white !important; /* Fondo blanco para el tema claro */
+  color: black !important; /* Texto negro */
+  border: 1px solid #cccccc !important;
+}
+
+.table th,
+.table td {
+  padding: 8px !important;
+  text-align: left !important;
+}
+
+/* Estilos para la tabla en modo oscuro */
+.dark-mode .table {
+  background-color: #1e1e1e !important; /* Fondo oscuro */
+  color: white !important; /* Texto blanco */
+  border-color: #ffffff !important; /* Bordes más oscuros */
+}
+
+.dark-mode .table th,
+.dark-mode .table td {
+  color: rgb(255, 255, 255)  !important;
+  border-color: #ffffff !important; /* Bordes más oscuros */
+  background-color: black !important;
 }
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
@@ -30,13 +49,23 @@
   .sidebar ~ .main-content  {
     margin-left: 40%;
     font-size: 13px;
+    overflow-x: hidden !important;
   }
-  .btn-warning, .btn-danger, .btn-primary {
+  .btn-primary{
+    font-size: 10px !important;  /* Ajusta el tamaño del texto en pantallas pequeñas */
+    padding: 8px 10px !important; /* Ajusta el padding */
+    width: 100% !important;       /* El botón ocupa todo el ancho disponible */
+    margin-bottom: 10px !important;  /* Espacio entre botones */
+    /* Flexbox para centrar el contenido */
+    display: flex !important;
+    justify-content: center !important; /* Centra horizontalmente */
+    align-items: center !important;     /* Centra verticalmente */
+  }
+  .btn-warning, .btn-danger{
     font-size: 10px !important;  /* Ajusta el tamaño del texto en pantallas pequeñas */
     padding: 8px 10px !important; /* Ajusta el padding */
     width: 80% !important;       /* El botón ocupa todo el ancho disponible */
     margin-bottom: 10px !important;  /* Espacio entre botones */
-    color: #252525 !important;
     /* Flexbox para centrar el contenido */
     display: flex !important;
     justify-content: center !important; /* Centra horizontalmente */

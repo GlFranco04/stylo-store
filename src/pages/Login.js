@@ -2,6 +2,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "../styles/Theme.css"
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -71,11 +72,6 @@ function Login() {
               <button 
               type="submit" 
               className="btn btn-primary btn-block mt-4"
-              style={{ 
-                backgroundColor: '#252525', 
-                color: 'white',
-                borderColor: 'white'
-              }}
               >
               Iniciar Sesión
             </button>
