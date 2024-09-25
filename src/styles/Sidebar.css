@@ -60,10 +60,6 @@
 .sidebar.closed {
   transform: translateX(-100%);
 }
-/* Estilo cuando el submenú está abierto */
-.menuUsuario.open {
-  padding-top: 50px;
-}
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
 @media (max-width: 768px) {
