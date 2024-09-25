@@ -1,9 +1,3 @@
-/* Estilo general del dashboard */
-.dashboard-container {
-  display: flex;
-  min-height: 100vh;
-}
-
 /* Sidebar */
 .sidebar {
   width: 20%;
@@ -66,24 +60,9 @@
 .sidebar.closed {
   transform: translateX(-100%);
 }
-
-/* Estilo para el contenido principal */
-.main-content {
-  flex-grow: 1;
-  margin-left: 20%; /* Espacio que ocupa el sidebar */
-  padding: 20px;
-  transition: margin-left 0.3s ease-in-out;
-}
-
-/* Ajuste cuando el sidebar está cerrado */
-.sidebar.closed ~ .main-content {
-  margin-left: 0;
-}
-
-/* Submenu para la sección de perfil */
-.submenu {
-  list-style: none;
-  padding-left: 20px;
+/* Estilo cuando el submenú está abierto */
+.menuUsuario.open {
+  padding-top: 50px;
 }
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
@@ -92,12 +71,9 @@
     transform: translateX(0%);
     width: 40%;
     padding:10px;
-    font-size: 12px;
+    font-size: 18px;
   }
   .sidebar.closed{
     transform: translateX(-100%);
-  }
-  .sidebar ~ .main-content {
-    margin-left: 40%;
   }
 }

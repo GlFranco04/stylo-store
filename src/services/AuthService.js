@@ -1,4 +1,6 @@
 // src/services/AuthService.js
+import { jwtDecode } from 'jwt-decode';
+
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/authenticate';
@@ -10,6 +12,22 @@ const login = (correo, contrasena) => {
   });
 };
 
-export default {
-  login,
+const getRoleFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+  
+try {
+    const decoded = jwtDecode(token);  // Decodificar el token
+    console.log('Token decodificado:', decoded);  // Ver todo el contenido del token
+    return decoded.role;  // Asumiendo que el rol está en el campo "role"
+  } catch (error) {
+    console.error('Error decodificando el token:', error);
+    return null;
+  }
 };
+const AuthService = {
+  getRoleFromToken,
+  login
+};
+
+export default AuthService;
