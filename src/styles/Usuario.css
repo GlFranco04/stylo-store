@@ -1,0 +1,30 @@
+/* Estilo general del dashboard */
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Estilo para el contenido principal */
+.main-content {
+  flex-grow: 1;
+  margin-left: 20%; /* Espacio que ocupa el sidebar */
+  padding: 20px;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+/* Ajuste cuando el sidebar está cerrado */
+.sidebar.closed ~ .main-content {
+  margin-left: 0;
+}
+
+
+/* Responsive: Ocultar sidebar en pantallas pequeñas */
+@media (max-width: 768px) {
+  .sidebar ~ .main-content  {
+    margin-left: 40%;
+    font-size: 10px;
+  }
+  .sidebar ~ .main-content ~ .table ~ .btnbtn-warning  {
+    font-size: 10px;
+  }
+}

@@ -63,6 +63,7 @@
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
 @media (max-width: 768px) {
+  
   .sidebar {
     transform: translateX(0%);
     width: 40%;

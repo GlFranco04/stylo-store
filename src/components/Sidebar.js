@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Sidebar.css';  // Los estilos específicos del sidebar
 import AuthService from '../services/AuthService';
@@ -10,14 +10,38 @@ function Sidebar() {
   const navigate = useNavigate();
   const userRole = AuthService.getRoleFromToken();
 
+  // Función para alternar la visibilidad del sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  // Función para cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
   };
+
+  // Cerrar automáticamente el sidebar en pantallas pequeñas
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsSidebarOpen(false); // Cierra el sidebar cuando la pantalla es pequeña
+      } else {
+        setIsSidebarOpen(true); // Lo abre cuando la pantalla es grande
+      }
+    };
+
+    // Ejecutar la función cuando la pantalla se redimensiona
+    window.addEventListener('resize', handleResize);
+
+    // Ejecutar la función inmediatamente para verificar el tamaño inicial de la pantalla
+    handleResize();
+
+    // Limpiar el evento al desmontar el componente
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div className={`sidebar ${isSidebarOpen ? '' : 'closed'}`}>

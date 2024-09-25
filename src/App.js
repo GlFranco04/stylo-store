@@ -8,6 +8,7 @@ import GestionPermisos from './pages/Permiso';
 import Producto from './pages/Producto';
 import GestionUsuarios from './pages/Usuario';
 import GestionRoles from './pages/Rol';
+import CrearUsuario from './pages/CrearUsuario';  // Importar la página de crear usuario
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/gestion-usuario" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionUsuarios />} />} />
           <Route path="/gestion-rol" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionRoles />} />} />
           <Route path="/gestion-permiso" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionPermisos />} />} />
+          <Route path="/crear-usuario" element={<ProtectedRoute roles={['SuperUsuario']} element={<CrearUsuario />} />} />  {/* Nueva ruta */}
         </Routes>
       </div>
     </Router>

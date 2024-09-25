@@ -37,5 +37,5 @@ export default {
   crearUsuarios,
   obtenerUsuarioPorId,
   actualizarUsuario,
-  eliminarUsuario
+  eliminarUsuario 
 };
