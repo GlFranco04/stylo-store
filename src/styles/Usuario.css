@@ -44,51 +44,15 @@
   background-color: black !important;
 }
 
-/* src/styles/Theme.css */
-
-/* Estilos para el tema claro */
-.btn {
-  background-color: #007bff ; /* Color de botón primario por defecto */
-  color: white ;
-}
-
-.btn-warning {
-  background-color: #ffc107  !important; /* Color del botón de advertencia */
-  color: rgb(255, 255, 255) !important;
-}
-
-.btn-danger {
-  background-color: #dc3545  !important; /* Color del botón de eliminar */
-  color: white  !important;
-}
-
-/* Estilos para el tema oscuro */
-.dark-mode .btn {
-  background-color: #000000  !important; /* Color de botón primario en modo oscuro */
-  color: rgb(255, 255, 255)  !important;
-  border-color: white;
-}
-
-.dark-mode .btn-warning {
-  background-color: #000000  !important; /* Color del botón de advertencia en modo oscuro */
-  color: rgb(255, 255, 255)  !important;
-  border-color: white;
-}
-
-.dark-mode .btn-danger {
-  background-color: #000000  !important; /* Color del botón de eliminar en modo oscuro */
-  color: rgb(255, 255, 255)  !important;
-  border-color: white;
-}
-
 .dark-mode .form-group {
-  background-color: #131212 !important; /* Color de fondo en modo oscuro */
-  color: rgb(255, 255, 255) !important;
+  background-color: #ffffff !important; /* Color de fondo en modo oscuro */
+  color: rgb(0, 0, 0) !important;
   
 }
 .dark-mode .modal{
   color: #000000 !important;
 }
+
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
 @media (max-width: 768px) {
   .sidebar ~ .main-content  {

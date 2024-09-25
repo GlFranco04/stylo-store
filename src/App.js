@@ -21,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<ProtectedRoute roles={['SuperUsuario', 'Vendedor', 'Gerente Sucursal']} element={<Dashboard />} />} />
-            <Route path="/gestion-usuario" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionUsuarios />} />} />
+            <Route path="/gestion-usuario" element={<ProtectedRoute roles={['SuperUsuario', 'Vendedor']} element={<GestionUsuarios />} />} />
             <Route path="/gestion-rol" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionRoles />} />} />
             <Route path="/gestion-permiso" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionPermisos />} />} />
           </Routes>

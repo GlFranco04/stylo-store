@@ -14,6 +14,10 @@ function GestionarUsuarios() {
   const [showEditModal, setShowEditModal] = useState(false);  // Estado para controlar el modal de edición
   const [showCreateModal, setShowCreateModal] = useState(false);  // Estado para controlar el modal de creación
   const [roles, setRoles] = useState([]);  // Almacenar los roles
+  const [buscarId, setBuscarId] = useState('');  // Estado para el ID a buscar
+  const [usuarioEncontrado, setUsuarioEncontrado] = useState(null); // Estado para almacenar el usuario encontrado
+  const [currentPage, setCurrentPage] = useState(1);  // Página actual
+  const usuariosPorPagina = 10;  // Número de usuarios por página
   const [nuevoUsuario, setNuevoUsuario] = useState({
     nombre: '',
     apellido: '',
@@ -43,20 +47,21 @@ function GestionarUsuarios() {
       .catch(error => console.error('Error al obtener roles', error));
   }, []);
 
-  const handleEditarUsuario = (usuario) => {
-    setSelectedUsuario(usuario);  // Selecciona el usuario a editar
-    setShowEditModal(true);  // Muestra el modal
-  };
+  // Función para manejar la búsqueda por ID
+  const handleBuscarPorId = () => {
+    if (!buscarId) {
+      alert('Por favor, ingrese un ID.');
+      return;
+    }
 
-  const handleGuardarCambios = () => {
-    UsuarioService.actualizarUsuario(selectedUsuario.id, selectedUsuario)
+    UsuarioService.obtenerUsuarioPorId(buscarId)
       .then(response => {
-        console.log('Usuario actualizado:', response.data);
-        setShowEditModal(false);  // Cierra el modal
-        window.location.reload();  // Refrescar la página
+        setUsuarioEncontrado(response.data);
       })
       .catch(error => {
-        console.error('Error al actualizar el usuario:', error);
+        console.error('Error al buscar el usuario:', error);
+        alert('Usuario no encontrado');
+        setUsuarioEncontrado(null);
       });
   };
 
@@ -77,7 +82,23 @@ function GestionarUsuarios() {
         console.error('Error al crear el usuario:', error);
       });
   };
-  
+
+  const handleEditarUsuario = (usuario) => {
+    setSelectedUsuario(usuario);  // Selecciona el usuario a editar
+    setShowEditModal(true);  // Muestra el modal
+  };
+
+  const handleGuardarCambios = () => {
+    UsuarioService.actualizarUsuario(selectedUsuario.id, selectedUsuario)
+      .then(response => {
+        console.log('Usuario actualizado:', response.data);
+        setShowEditModal(false);  // Cierra el modal
+        window.location.reload();  // Refrescar la página
+      })
+      .catch(error => {
+        console.error('Error al actualizar el usuario:', error);
+      });
+  };
 
   const handleInputChange = (e, isCreate = false) => {
     const { name, value } = e.target;
@@ -108,6 +129,14 @@ function GestionarUsuarios() {
       });
   };
 
+  // Obtener los usuarios para la página actual
+  const indexOfLastUsuario = currentPage * usuariosPorPagina;
+  const indexOfFirstUsuario = indexOfLastUsuario - usuariosPorPagina;
+  const usuariosActuales = usuarios.slice(indexOfFirstUsuario, indexOfLastUsuario);
+
+  // Cambiar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   if (loading) {
     return <div>Cargando usuarios...</div>;
   }
@@ -117,6 +146,33 @@ function GestionarUsuarios() {
       <Sidebar />
       <div className="main-content">
         <h1>Gestión de Usuarios</h1>
+        
+        {/* Sección para buscar usuario por ID */}
+        <div className="buscar-usuario">
+          <input 
+            type="text"
+            className="form-control"
+            placeholder="Buscar usuario por ID"
+            value={buscarId}
+            onChange={(e) => setBuscarId(e.target.value)}
+          />
+          <button className="btn btn-info" onClick={handleBuscarPorId}>
+            Buscar
+          </button>
+        </div>
+
+        {/* Mostrar usuario encontrado */}
+        {usuarioEncontrado && (
+          <div className="usuario-encontrado">
+            <h3>Usuario Encontrado</h3>
+            <p>Id: {usuarioEncontrado.id}</p>
+            <p>Nombre: {usuarioEncontrado.nombre} {usuarioEncontrado.apellido}</p>
+            <p>Correo: {usuarioEncontrado.correo}</p>
+            <p>Rol: {usuarioEncontrado.rol.nombre}</p>
+            <p>Estado: {usuarioEncontrado.estaActivo ? 'Activo' : 'No Activo'}</p>
+          </div>
+        )}
+
         <table className="table">
           <thead>
             <tr>
@@ -129,7 +185,7 @@ function GestionarUsuarios() {
             </tr>
           </thead>
           <tbody>
-            {usuarios.map(usuario => (
+            {usuariosActuales.map(usuario => (
               <tr key={usuario.id}>
                 <td>{usuario.id}</td>
                 <td>{usuario.nombre} {usuario.apellido}</td>
@@ -146,6 +202,20 @@ function GestionarUsuarios() {
             ))}
           </tbody>
         </table>
+
+        {/* Paginación */}
+        <nav>
+          <ul className="pagination">
+            {Array.from({ length: Math.ceil(usuarios.length / usuariosPorPagina) }).map((_, index) => (
+              <li key={index + 1} className="page-item">
+                <button onClick={() => paginate(index + 1)} className="page-link">
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        
         {userRole === 'SuperUsuario' && (
           <button className="btn btn-primary" onClick={() => setShowCreateModal(true)}>Crear Usuario</button>
         )}
