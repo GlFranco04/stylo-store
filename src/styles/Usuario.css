@@ -17,14 +17,35 @@
   margin-left: 0;
 }
 
+/* Estilos generales para los botones */
+.btn-warning, .btn-danger, .btn-primary {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  color: #000000 !important;
+}
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
 @media (max-width: 768px) {
   .sidebar ~ .main-content  {
     margin-left: 40%;
-    font-size: 10px;
+    font-size: 13px;
   }
-  .sidebar ~ .main-content ~ .table ~ .btnbtn-warning  {
-    font-size: 10px;
+  .btn-warning, .btn-danger, .btn-primary {
+    font-size: 10px !important;  /* Ajusta el tamaño del texto en pantallas pequeñas */
+    padding: 8px 10px !important; /* Ajusta el padding */
+    width: 80% !important;       /* El botón ocupa todo el ancho disponible */
+    margin-bottom: 10px !important;  /* Espacio entre botones */
+    color: #252525 !important;
+    /* Flexbox para centrar el contenido */
+    display: flex !important;
+    justify-content: center !important; /* Centra horizontalmente */
+    align-items: center !important;     /* Centra verticalmente */
+  }
+  .col_estado {
+    display: none;
+  }
+  .col_rol {
+    display: none;
   }
 }

@@ -63,13 +63,13 @@
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */
 @media (max-width: 768px) {
-  
   .sidebar {
     transform: translateX(0%);
     width: 40%;
     padding:10px;
-    font-size: 18px;
+    font-size: 15px;
   }
+  
   .sidebar.closed{
     transform: translateX(-100%);
   }

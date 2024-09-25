@@ -33,9 +33,12 @@ function GestionarUsuarios() {
   if (!usuarios || usuarios.length === 0) {
     return <div>No se encontraron usuarios.</div>;
   }
-    const handleCrearUsuario = () => {
+
+  // Función para redirigir a la página de crear usuario
+  const handleCrearUsuario = () => {
     navigate('/crear-usuario');  // Redirige a la página de crear usuario
   };
+
   return (
     <div className="main-container">
       <Sidebar /> {/* Sidebar separado como componente */}
@@ -44,10 +47,11 @@ function GestionarUsuarios() {
         <table className="table">
           <thead>
             <tr>
-              <th>ID</th>
+              <th className='col_id'>Id</th>
               <th>Nombre</th>
               <th>Correo</th>
-              <th>Rol</th>
+              <th className='col_rol'>Rol</th>
+              <th className='col_estado'>Estado</th> {/* Nueva columna para el estado */}
               {userRole === 'SuperUsuario' && <th>Acciones</th>}
             </tr>
           </thead>
@@ -55,14 +59,16 @@ function GestionarUsuarios() {
             {usuarios.map(usuario => (
               usuario && ( // Asegúrate de que el usuario no sea null o undefined
                 <tr key={usuario.id}>
-                  <td>{usuario.id}</td>
-                  <td>{usuario.nombre + " "+ usuario.apellido}</td>
+                  <th className='col_id'>{usuario.id}</th>
+                  <td>{usuario.nombre + " " + usuario.apellido}</td>
                   <td>{usuario.correo}</td>
-                  <td>{usuario.rol.nombre}</td>
+                  <td className='col_rol'>{usuario.rol.nombre}</td>
+                  {/* Columna para mostrar el estado */}
+                  <td className='col_estado'>{usuario.estaActivo ? 'Activo' : 'No Activo'}</td>
                   {userRole === 'SuperUsuario' && (
                     <td>
-                      <button className="btn btn-warning">Editar</button>
-                      <button className="btn btn-danger">Eliminar</button>
+                      <button className="btn btn-warning">EDITAR</button>
+                      <button className="btn btn-danger">ELIMINAR</button>
                     </td>
                   )}
                 </tr>
@@ -81,4 +87,5 @@ function GestionarUsuarios() {
     </div>
   );
 }
+
 export default GestionarUsuarios;
