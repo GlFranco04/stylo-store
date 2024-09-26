@@ -24,11 +24,9 @@ const obtenerRolPorId = (id) => {
   return axios.get(`${API_URL}/${id}`, config);  // Asegúrate de tener el endpoint correcto
 };
 
-
 const actualizarRol = (id, rol) => {
   return axios.put(`${API_URL}/${id}`, rol, config);
 };
-
 
 const eliminarRol = (id) => {
   return axios.delete(`${API_URL}/${id}`, config);

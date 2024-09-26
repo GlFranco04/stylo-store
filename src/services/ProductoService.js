@@ -28,6 +28,10 @@ const actualizarProducto = (id, producto) => {
   return axios.put(`${API_URL}/${id}`, producto, config);
 };
 
+const desactivarProducto = (id) => {
+  return axios.patch(`${API_URL}/${id}`, {},config);
+};
+
 const eliminarProducto = (id) => {
   return axios.delete(`${API_URL}/${id}`, config);
 };
@@ -37,5 +41,6 @@ export default {
   crearProducto,
   obtenerProductoPorId,
   actualizarProducto,
+  desactivarProducto,
   eliminarProducto,
 };
