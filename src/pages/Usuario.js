@@ -179,8 +179,8 @@ function GestionarUsuarios() {
               <th>Id</th>
               <th>Nombre</th>
               <th>Correo</th>
-              <th>Rol</th>
-              <th>Estado</th>
+              <th className='col_rol'>Rol</th>
+              <th className='col_estado'>Estado</th>
               {userRole === 'SuperUsuario' && <th>Acciones</th>}
             </tr>
           </thead>
@@ -190,8 +190,8 @@ function GestionarUsuarios() {
                 <td>{usuario.id}</td>
                 <td>{usuario.nombre} {usuario.apellido}</td>
                 <td>{usuario.correo}</td>
-                <td>{usuario.rol.nombre}</td>
-                <td>{usuario.estaActivo ? 'Activo' : 'No Activo'}</td>
+                <td className='col_rol'>{usuario.rol.nombre}</td>
+                <td className='col_estado'>{usuario.estaActivo ? 'Activo' : 'No Activo'}</td>
                 {userRole === 'SuperUsuario' && (
                   <td>
                     <button className="btn btn-warning" onClick={() => handleEditarUsuario(usuario)}>Editar</button>

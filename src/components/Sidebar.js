@@ -7,6 +7,7 @@ function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isGestionUsuarioOpen, setIsGestionUsuarioOpen] = useState(false);
+  const [isGestionProductoOpen, setIsGestionProductoOpen] = useState(false);
   const navigate = useNavigate();
   const userRole = AuthService.getRoleFromToken();
 
@@ -60,6 +61,22 @@ function Sidebar() {
                 <li><a href="/gestion-usuario">Gestión de Usuarios</a></li>
                 <li><a href="/gestion-rol">Gestión de Roles</a></li>
                 <li><a href="/gestion-permiso">Gestión de Permisos</a></li>
+                <li><a href="/gestion-rol-permiso">Asignar Permisos</a></li>
+              </ul>
+            )}
+          </>
+        )}
+
+        {userRole === 'SuperUsuario' && (
+          <>
+            <li onClick={() => setIsGestionProductoOpen(!isGestionProductoOpen)}>
+              Gestionar Producto {isGestionProductoOpen ? '▲' : '▼'}
+            </li>
+            {isGestionProductoOpen && (
+              <ul className="menuProducto">
+                <li><a href="/gestion-producto">Gestión de Productos</a></li>
+                <li><a href="/gestion-talla">Gestión de Tallas</a></li>
+                <li><a href="/gestion-categoria">Gestión de Categorias</a></li>
               </ul>
             )}
           </>

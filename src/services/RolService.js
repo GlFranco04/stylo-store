@@ -16,17 +16,19 @@ const obtenerRoles = () => {
   return axios.get(API_URL, config);  // Añade el token a la solicitud
 };
 
-const crearRoles = (rol) => {
+const crearRol = (rol) => {
   return axios.post(API_URL, rol, config);  // Añade el token a la solicitud
 };
 
 const obtenerRolPorId = (id) => {
-  return axios.get(`${API_URL}/${id}`, config);
+  return axios.get(`${API_URL}/${id}`, config);  // Asegúrate de tener el endpoint correcto
 };
+
 
 const actualizarRol = (id, rol) => {
   return axios.put(`${API_URL}/${id}`, rol, config);
 };
+
 
 const eliminarRol = (id) => {
   return axios.delete(`${API_URL}/${id}`, config);
@@ -34,7 +36,7 @@ const eliminarRol = (id) => {
 
 export default {
   obtenerRoles,
-  crearRoles,
+  crearRol,
   obtenerRolPorId,
   actualizarRol,
   eliminarRol

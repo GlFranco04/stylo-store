@@ -9,6 +9,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import GestionUsuarios from './pages/Usuario';
 import GestionPermisos from './pages/Permiso';
 import GestionRoles from './pages/Rol';
+import GestionTallas from './pages/Talla'
+import GestionCategorias from './pages/Categoria'
+import GestionRolPermisos from './pages/RolPermiso'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -24,6 +27,9 @@ function App() {
             <Route path="/gestion-usuario" element={<ProtectedRoute roles={['SuperUsuario', 'Vendedor']} element={<GestionUsuarios />} />} />
             <Route path="/gestion-rol" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionRoles />} />} />
             <Route path="/gestion-permiso" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionPermisos />} />} />
+            <Route path="/gestion-talla" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionTallas />} />} />
+            <Route path="/gestion-categoria" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionCategorias />} />} />
+            <Route path="/gestion-rol-permiso" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionRolPermisos />} />} />
           </Routes>
         </div>
       </Router>
