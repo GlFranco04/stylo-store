@@ -78,6 +78,7 @@ function Sidebar() {
                 <li><a href="/gestion-talla">Gestión de Tallas</a></li>
                 <li><a href="/gestion-categoria">Gestión de Categorias</a></li>
                 <li><a href="/gestion-detalle-producto">Gestión de DetallesProducto</a></li>
+                <li><a href="/gestion-producto-categoria">Asignar Categoria</a></li>
               </ul>
             )}
           </>
