@@ -1,8 +1,8 @@
 /* Sidebar */
 .sidebar {
   width: 20%;
-  background-color: #252525;
-  color: white;
+  background-color: #ffd256;
+  color: rgb(0, 0, 0);
   padding: 20px;
   position: fixed;
   top: 0;
@@ -11,6 +11,7 @@
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
   overflow-y: fixed; /* Para que pueda desplazarse si hay mucho contenido */
+  font-size: 20px;
 }
 
 .sidebar ul {
@@ -24,15 +25,15 @@
 }
 
 .sidebar ul li a {
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none;
   display: block;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
 }
 
 .sidebar ul li a:hover {
-  background-color: #565749;
+  background-color: #ffdc7b;
 }
 
 /* Botón para colapsar el sidebar */
@@ -59,6 +60,23 @@
 /* Ajuste para el contenido cuando el sidebar está colapsado */
 .sidebar.closed {
   transform: translateX(-100%);
+}
+
+.dark-mode .sidebar{
+  background-color: #212121;
+  color: white;
+}
+
+.dark-mode .sidebar ul li a:hover{
+  background-color: #d1d1d1;
+}
+
+.dark-mode .sidebar ul li a {
+  color: rgb(0, 0, 0);
+  padding: 5px;
+  border-radius: 5px;
+  border: 3px solid rgb(0, 0, 0); /* Borde blanco */
+  background-color: white;
 }
 
 /* Responsive: Ocultar sidebar en pantallas pequeñas */

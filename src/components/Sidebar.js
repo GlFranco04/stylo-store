@@ -5,10 +5,7 @@ import AuthService from '../services/AuthService';
 
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isGestionUsuarioOpen, setIsGestionUsuarioOpen] = useState(false);
-  const [isGestionProductoOpen, setIsGestionProductoOpen] = useState(false);
-  const [isGestionEmpresaOpen, setIsGestionEmpresaOpen] = useState(false);
+  const [activeMenu, setActiveMenu] = useState(''); // Estado para manejar qué menú está abierto
   const navigate = useNavigate();
   const userRole = AuthService.getRoleFromToken();
 
@@ -45,6 +42,11 @@ function Sidebar() {
     };
   }, []);
 
+  // Función para manejar la apertura de los menús
+  const handleMenuClick = (menu) => {
+    setActiveMenu(activeMenu === menu ? '' : menu); // Alternar el menú seleccionado
+  };
+
   return (
     <div className={`sidebar ${isSidebarOpen ? '' : 'closed'}`}>
       <button className="toggle-btn" onClick={toggleSidebar}>
@@ -52,12 +54,12 @@ function Sidebar() {
       </button>
       <ul>
 
-      {userRole === 'SuperUsuario' && (
+        {userRole === 'SuperUsuario' && (
           <>
-            <li onClick={() => setIsGestionEmpresaOpen(!isGestionEmpresaOpen)}>
-              Gestionar Empresa {isGestionEmpresaOpen ? '▲' : '▼'}
+            <li onClick={() => handleMenuClick('empresa')}>
+              Gestionar Empresa {activeMenu === 'empresa' ? '▲' : '▼'}
             </li>
-            {isGestionEmpresaOpen && (
+            {activeMenu === 'empresa' && (
               <ul className="menuEmpresa">
                 <li><a href="/ver-empresa">Datos de Empresa</a></li>
                 <li><a href="/gestion-sucursal">Gestión de Sucursales</a></li>
@@ -69,10 +71,10 @@ function Sidebar() {
         {/* Solo mostrar "Gestionar Usuario" si el rol es SuperUsuario */}
         {userRole === 'SuperUsuario' && (
           <>
-            <li onClick={() => setIsGestionUsuarioOpen(!isGestionUsuarioOpen)}>
-              Gestionar Usuario {isGestionUsuarioOpen ? '▲' : '▼'}
+            <li onClick={() => handleMenuClick('usuario')}>
+              Gestionar Usuario {activeMenu === 'usuario' ? '▲' : '▼'}
             </li>
-            {isGestionUsuarioOpen && (
+            {activeMenu === 'usuario' && (
               <ul className="menuUsuario">
                 <li><a href="/gestion-usuario">Gestión de Usuarios</a></li>
                 <li><a href="/gestion-rol">Gestión de Roles</a></li>
@@ -85,10 +87,10 @@ function Sidebar() {
 
         {userRole === 'SuperUsuario' && (
           <>
-            <li onClick={() => setIsGestionProductoOpen(!isGestionProductoOpen)}>
-              Gestionar Producto {isGestionProductoOpen ? '▲' : '▼'}
+            <li onClick={() => handleMenuClick('producto')}>
+              Gestionar Producto {activeMenu === 'producto' ? '▲' : '▼'}
             </li>
-            {isGestionProductoOpen && (
+            {activeMenu === 'producto' && (
               <ul className="menuProducto">
                 <li><a href="/gestion-producto">Gestión de Productos</a></li>
                 <li><a href="/gestion-talla">Gestión de Tallas</a></li>
@@ -101,10 +103,10 @@ function Sidebar() {
         )}
 
         {/* Sección de perfil (disponible para todos los roles) */}
-        <li onClick={() => setIsProfileOpen(!isProfileOpen)}>
-          Perfil {isProfileOpen ? '▲' : '▼'}
+        <li onClick={() => handleMenuClick('perfil')}>
+          Perfil {activeMenu === 'perfil' ? '▲' : '▼'}
         </li>
-        {isProfileOpen && (
+        {activeMenu === 'perfil' && (
           <ul className="menuPerfil">
             <li><a href="/mi-perfil">Mi Perfil</a></li>
             <li onClick={handleLogout}>Cerrar Sesión</li>
