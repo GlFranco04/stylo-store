@@ -21,6 +21,8 @@ function GestionDetalleProducto() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [buscarId, setBuscarId] = useState('');  // Estado para manejar la búsqueda por ID
+  const [detalleEncontrado, setDetalleEncontrado] = useState(null);  // Estado para almacenar el detalle encontrado
   const detallesPorPagina = 10;
 
   useEffect(() => {
@@ -52,6 +54,23 @@ function GestionDetalleProducto() {
       })
       .catch(error => {
         console.error('Error al obtener las tallas:', error);
+      });
+  };
+
+  // Función para buscar detalle por ID
+  const handleBuscarPorId = () => {
+    if (!buscarId) {
+      alert('Por favor, ingrese un ID de detalle de producto.');
+      return;
+    }
+    DetalleProductoService.obtenerDetalleProductoPorId(buscarId)
+      .then(response => {
+        setDetalleEncontrado(response.data);  // Almacenar el detalle encontrado
+      })
+      .catch(error => {
+        console.error('Error al buscar el detalle de producto:', error);
+        alert('Detalle de producto no encontrado');
+        setDetalleEncontrado(null);  // Reiniciar si no se encuentra
       });
   };
 
@@ -155,6 +174,32 @@ function GestionDetalleProducto() {
       <Sidebar />
       <div className="main-content">
         <h1>Gestión de Detalle de Productos</h1>
+
+        {/* Buscar detalle por ID */}
+        <div className="buscar-detalle">
+          <input 
+            type="text"
+            className="form-control"
+            placeholder="Buscar detalle de producto por ID"
+            value={buscarId}
+            onChange={(e) => setBuscarId(e.target.value)}
+          />
+          <button className="btn btn-info" onClick={handleBuscarPorId}>
+            Buscar
+          </button>
+        </div>
+
+        {/* Mostrar detalles del producto encontrado */}
+        {detalleEncontrado && (
+          <div className="detalle-encontrado">
+            <h3>Detalle de Producto Encontrado</h3>
+            <p><strong>ID:</strong> {detalleEncontrado.id}</p>
+            <p><strong>Precio:</strong> {detalleEncontrado.precio}</p>
+            <p><strong>Color:</strong> {detalleEncontrado.color}</p>
+            <p><strong>Producto:</strong> {detalleEncontrado.producto ? detalleEncontrado.producto.nombre : 'Producto no disponible'}</p>
+            <p><strong>Talla:</strong> {detalleEncontrado.talla ? detalleEncontrado.talla.nombre : 'Talla no disponible'}</p>
+          </div>
+        )}
 
         <table className="table">
           <thead>

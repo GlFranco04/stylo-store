@@ -15,6 +15,8 @@ import GestionRolPermisos from './pages/RolPermiso'
 import GestionProducto from './pages/Producto'
 import GestionDetalleProducto from './pages/DetalleProducto'
 import GestionProductoCategoria from './pages/ProductoCategoria'
+import GestionEmpresa from './pages/Empresa'
+import GestionSucursal from './pages/Sucursal'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -36,6 +38,8 @@ function App() {
             <Route path="/gestion-producto" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionProducto />} />} />
             <Route path="/gestion-detalle-producto" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionDetalleProducto />} />} />
             <Route path="/gestion-producto-categoria" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionProductoCategoria />} />} />
+            <Route path="/ver-empresa" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionEmpresa />} />} />
+            <Route path="/gestion-sucursal" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionSucursal />} />} />
           </Routes>
         </div>
       </Router>

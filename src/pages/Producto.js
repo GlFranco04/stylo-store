@@ -15,6 +15,8 @@ function GestionProducto() {
     estaActivo: true,
     fechaCreacion: new Date().toISOString().split('T')[0],  // Fecha actual
   });
+  const [buscarId, setBuscarId] = useState(''); // Estado para manejar la búsqueda por ID
+  const [productoEncontrado, setProductoEncontrado] = useState(null); // Estado para almacenar el producto encontrado
   const [currentPage, setCurrentPage] = useState(1);
   const productosPorPagina = 10;
 
@@ -29,6 +31,23 @@ function GestionProducto() {
         setLoading(false);
       });
   }, []);
+
+  // Función para buscar producto por ID
+  const handleBuscarPorId = () => {
+    if (!buscarId) {
+      alert('Por favor, ingrese un ID de producto.');
+      return;
+    }
+    ProductoService.obtenerProductoPorId(buscarId)
+      .then(response => {
+        setProductoEncontrado(response.data); // Almacenar el producto encontrado
+      })
+      .catch(error => {
+        console.error('Error al buscar el producto:', error);
+        alert('Producto no encontrado');
+        setProductoEncontrado(null); // Reiniciar si no se encuentra el producto
+      });
+  };
 
   const handleCrearProducto = (e) => {
     e.preventDefault();
@@ -91,6 +110,32 @@ function GestionProducto() {
       <Sidebar />
       <div className="main-content">
         <h1>Gestión de Productos</h1>
+
+        {/* Buscar producto por ID */}
+        <div className="buscar-producto">
+          <input 
+            type="text"
+            className="form-control"
+            placeholder="Buscar producto por ID"
+            value={buscarId}
+            onChange={(e) => setBuscarId(e.target.value)}
+          />
+          <button className="btn btn-info" onClick={handleBuscarPorId}>
+            Buscar
+          </button>
+        </div>
+
+        {/* Mostrar detalles del producto encontrado */}
+        {productoEncontrado && (
+          <div className="producto-encontrado">
+            <h3>Producto Encontrado</h3>
+            <p><strong>ID:</strong> {productoEncontrado.id}</p>
+            <p><strong>Nombre:</strong> {productoEncontrado.nombre}</p>
+            <p><strong>Descripción:</strong> {productoEncontrado.descripcion}</p>
+            <p><strong>Fecha Creación:</strong> {productoEncontrado.fechaCreacion}</p>
+            <p><strong>Activo:</strong> {productoEncontrado.estaActivo ? 'Sí' : 'No'}</p>
+          </div>
+        )}
 
         <table className="table">
           <thead>

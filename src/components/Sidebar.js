@@ -8,6 +8,7 @@ function Sidebar() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isGestionUsuarioOpen, setIsGestionUsuarioOpen] = useState(false);
   const [isGestionProductoOpen, setIsGestionProductoOpen] = useState(false);
+  const [isGestionEmpresaOpen, setIsGestionEmpresaOpen] = useState(false);
   const navigate = useNavigate();
   const userRole = AuthService.getRoleFromToken();
 
@@ -50,6 +51,21 @@ function Sidebar() {
         {isSidebarOpen ? '⮜' : '⮞'}
       </button>
       <ul>
+
+      {userRole === 'SuperUsuario' && (
+          <>
+            <li onClick={() => setIsGestionEmpresaOpen(!isGestionEmpresaOpen)}>
+              Gestionar Empresa {isGestionEmpresaOpen ? '▲' : '▼'}
+            </li>
+            {isGestionEmpresaOpen && (
+              <ul className="menuEmpresa">
+                <li><a href="/ver-empresa">Datos de Empresa</a></li>
+                <li><a href="/gestion-sucursal">Gestión de Sucursales</a></li>
+              </ul>
+            )}
+          </>
+        )}
+
         {/* Solo mostrar "Gestionar Usuario" si el rol es SuperUsuario */}
         {userRole === 'SuperUsuario' && (
           <>
