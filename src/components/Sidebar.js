@@ -63,6 +63,7 @@ function Sidebar() {
               <ul className="menuEmpresa">
                 <li><a href="/ver-empresa">Datos de Empresa</a></li>
                 <li><a href="/gestion-sucursal">Gestión de Sucursales</a></li>
+                <li><a href="/gestion-direccion">Gestión de Direcciones</a></li>
               </ul>
             )}
           </>
