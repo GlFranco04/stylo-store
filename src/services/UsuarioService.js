@@ -28,6 +28,10 @@ const actualizarUsuario = (id, usuario) => {
   return axios.put(`${API_URL}/${id}`, usuario, config);
 };
 
+const obtenerPerfil = () => {
+  return axios.get(`${API_URL}/perfil`, config);  // Añade el token a la solicitud
+};
+
 const desactivarUsuario = (id) => {
   return axios.patch(`${API_URL}/${id}`, {},config);
 };
@@ -42,5 +46,6 @@ export default {
   obtenerUsuarioPorId,
   actualizarUsuario,
   desactivarUsuario,
+  obtenerPerfil,
   EliminarUsuario
 };
