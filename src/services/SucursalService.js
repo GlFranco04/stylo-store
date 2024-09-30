@@ -39,7 +39,7 @@ const activarDesactivarSucursal = (id, estaActivo) => {
 
 // Obtener direcciones disponibles
 const obtenerDireccionesDisponibles = () => {
-  return axios.get('http://localhost:8080/api/direccion/disponibles', config);
+  return axios.get('https://stylo-storebackend-production.up.railway.app/api/direccion/disponibles', config);
 };
 
 export default {
