@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/talla';
+const API_URL = 'https://stylo-storebackend-production.up.railway.app/api/talla';
 
 // Obtener el token del localStorage
 const token = localStorage.getItem('token');

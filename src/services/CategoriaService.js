@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/api/categoria';
+const API_URL = 'https://stylo-storebackend-production.up.railway.app/api/categoria';
 
 // Obtener el token del localStorage
 const token = localStorage.getItem('token');
