@@ -17,7 +17,7 @@ function Login() {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8080/authenticate', {
+      const response = await axios.post('https://stylo-storebackend-production.up.railway.app/authenticate', {
         correo: email,
         contrasena: password
       });
