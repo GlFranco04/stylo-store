@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'https://stylo-storebackend-production.up.railway.app/api',
+  baseURL: 'https://stylo-storebackend-production.up.railway.app',
 });
 
 // Interceptor para añadir el token JWT a todas las solicitudes
