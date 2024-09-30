@@ -1,9 +1,9 @@
 // src/services/AxiosConfig.js
 import axios from 'axios';
 
-const instance = axios.create({
-  baseURL: 'https://stylo-storebackend-production.up.railway.app',
-});
+axios.defaults.baseURL = 'https://stylo-storebackend-production.up.railway.app';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+axios.defaults.withCredentials = true; // Esto es necesario si usas cookies o autenticación basada en sesiones
 
 // Interceptor para añadir el token JWT a todas las solicitudes
 instance.interceptors.request.use((config) => {
