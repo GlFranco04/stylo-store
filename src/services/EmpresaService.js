@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://stylo-storebackend-production.up.railway.app/api/empresa';
+const API_URL = 'https://stylo-store-a2yevyz8d-gabriels-projects-9c5cda58.vercel.app/api/empresa';
 const token = localStorage.getItem('token');
 const config = {
   headers: {

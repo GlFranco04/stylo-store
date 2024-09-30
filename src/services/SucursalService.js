@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://stylo-storebackend-production.up.railway.app/api/sucursal';
+const API_URL = 'https://stylo-store-a2yevyz8d-gabriels-projects-9c5cda58.vercel.app/api/sucursal';
 
 // Obtener el token del localStorage
 const token = localStorage.getItem('token');
@@ -39,7 +39,7 @@ const activarDesactivarSucursal = (id, estaActivo) => {
 
 // Obtener direcciones disponibles
 const obtenerDireccionesDisponibles = () => {
-  return axios.get('https://stylo-storebackend-production.up.railway.app/api/direccion/disponibles', config);
+  return axios.get('https://stylo-store-a2yevyz8d-gabriels-projects-9c5cda58.vercel.app/api/direccion/disponibles', config);
 };
 
 export default {

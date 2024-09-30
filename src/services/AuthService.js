@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import axios from 'axios';
 
-const API_URL = 'https://stylo-storebackend-production.up.railway.app/auhtenticate';
+const API_URL = 'https://stylo-store-a2yevyz8d-gabriels-projects-9c5cda58.vercel.app/auhtenticate';
 
 const login = (correo, contrasena) => {
   return axios.post(API_URL, {
