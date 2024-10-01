@@ -13,7 +13,7 @@ function GestionDetalleProducto() {
   const [loading, setLoading] = useState(true);
   const [selectedDetalleProducto, setSelectedDetalleProducto] = useState(null);
   const [nuevoDetalleProducto, setNuevoDetalleProducto] = useState({
-    precio: '',
+    precioVenta: '',
     color: '',
     producto: { id: '' },  // Cambiado a objeto con estructura { id: '' }
     talla: { id: '' }  // Cambiado a objeto con estructura { id: '' }
@@ -194,7 +194,7 @@ function GestionDetalleProducto() {
           <div className="detalle-encontrado">
             <h3>Detalle de Producto Encontrado</h3>
             <p><strong>ID:</strong> {detalleEncontrado.id}</p>
-            <p><strong>Precio:</strong> {detalleEncontrado.precio}</p>
+            <p><strong>Precio:</strong> {detalleEncontrado.precioVenta}</p>
             <p><strong>Color:</strong> {detalleEncontrado.color}</p>
             <p><strong>Producto:</strong> {detalleEncontrado.producto ? detalleEncontrado.producto.nombre : 'Producto no disponible'}</p>
             <p><strong>Talla:</strong> {detalleEncontrado.talla ? detalleEncontrado.talla.nombre : 'Talla no disponible'}</p>
@@ -216,7 +216,7 @@ function GestionDetalleProducto() {
             {detallesActuales.map(detalle => (
               <tr key={detalle.id}>
                 <td>{detalle.id}</td>
-                <td>{detalle.precio}</td>
+                <td>{detalle.precioVenta}</td>
                 <td>{detalle.color}</td>
                 <td>{detalle.producto ? detalle.producto.nombre : 'Producto no disponible'}</td>
                 <td>{detalle.talla ? detalle.talla.nombre : 'Talla no disponible'}</td>
@@ -258,7 +258,7 @@ function GestionDetalleProducto() {
                   type="text"
                   className="form-control"
                   name="precio"
-                  value={selectedDetalleProducto.precio}
+                  value={selectedDetalleProducto.precioVenta}
                   onChange={(e) => handleInputChange(e)}
                 />
               </div>
@@ -325,7 +325,7 @@ function GestionDetalleProducto() {
                 type="text"
                 className="form-control"
                 name="precio"
-                value={nuevoDetalleProducto.precio}
+                value={nuevoDetalleProducto.precioVenta}
                 onChange={(e) => handleInputChange(e, true)}
               />
             </div>
