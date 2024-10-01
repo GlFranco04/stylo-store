@@ -223,7 +223,6 @@ function GestionNotaCompra() {
                     <th>ID</th>
                     <th>Cantidad</th>
                     <th>Subtotal</th>
-                    <th>Producto</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -232,7 +231,6 @@ function GestionNotaCompra() {
                       <td>{detalle.id}</td>
                       <td>{detalle.cantidad}</td>
                       <td>{detalle.subtotal}</td>
-                      <td>{detalle.detalleProducto ? detalle.detalleProducto.nombre : 'Sin producto'}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -20,6 +20,7 @@ import GestionSucursal from './pages/Sucursal'
 import GestionDireccion from './pages/Direccion'
 import GestionMiPerfil from './pages/MiPerfil'
 import GestionNotaCompra from './pages/NotaCompra'
+import GestionDetalleCompra from './pages/DetalleCompra'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -46,6 +47,7 @@ function App() {
             <Route path="/gestion-direccion" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionDireccion />} />} />
             <Route path="/mi-perfil" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionMiPerfil />} />} />
             <Route path="/nota-compra" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionNotaCompra />} />} />
+            <Route path="/detalle-compra" element={<ProtectedRoute roles={['SuperUsuario']} element={<GestionDetalleCompra />} />} />
           </Routes>
         </div>
       </Router>
