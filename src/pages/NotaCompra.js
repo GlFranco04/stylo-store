@@ -8,17 +8,17 @@ function GestionNotaCompra() {
   const [notasCompra, setNotasCompra] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showDetalleModal, setShowDetalleModal] = useState(false);
   const [nuevaNotaCompra, setNuevaNotaCompra] = useState({
     sucursal: { id: '' },
-    fechaVenta: '', // Se asignará automáticamente la fecha actual en la creación
+    fechaVenta: '',
     total: 0,
     estado: true
   });
-  const [sucursales, setSucursales] = useState([]); // Lista de sucursales
-  const [buscarId, setBuscarId] = useState(''); // Estado para almacenar el ID a buscar
-  const [notaCompraEncontrada, setNotaCompraEncontrada] = useState(null); // Nota de compra encontrada
-  const [detalleCompra, setDetalleCompra] = useState([]); // Detalles de la nota compra
-  const [showDetalleModal, setShowDetalleModal] = useState(false); // Modal para mostrar detalles de compra
+  const [sucursales, setSucursales] = useState([]);
+  const [buscarId, setBuscarId] = useState('');
+  const [notaCompraEncontrada, setNotaCompraEncontrada] = useState(null);
+  const [detalleCompra, setDetalleCompra] = useState([]); // Detalles de la nota de compra seleccionada
 
   useEffect(() => {
     cargarNotasCompra();
@@ -60,7 +60,7 @@ function GestionNotaCompra() {
     e.preventDefault();
 
     // Asignar la fecha actual y los valores por defecto
-    const fechaActual = new Date().toISOString().split('T')[0]; // Fecha en formato "YYYY-MM-DD"
+    const fechaActual = new Date().toISOString().split('T')[0];
     const nuevaNota = {
       ...nuevaNotaCompra,
       fechaVenta: fechaActual,
@@ -215,26 +215,30 @@ function GestionNotaCompra() {
             <Modal.Title>Detalles de Compra</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th>Producto</th>
-                </tr>
-              </thead>
-              <tbody>
-                {detalleCompra.map(detalle => (
-                  <tr key={detalle.id}>
-                    <td>{detalle.id}</td>
-                    <td>{detalle.cantidad}</td>
-                    <td>{detalle.subtotal}</td>
-                    <td>{detalle.detalleProducto ? detalle.detalleProducto.nombre : 'Sin producto'}</td>
+            {detalleCompra.length > 0 ? (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th>Producto</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {detalleCompra.map(detalle => (
+                    <tr key={detalle.id}>
+                      <td>{detalle.id}</td>
+                      <td>{detalle.cantidad}</td>
+                      <td>{detalle.subtotal}</td>
+                      <td>{detalle.detalleProducto ? detalle.detalleProducto.nombre : 'Sin producto'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No hay detalles de compra para mostrar.</p>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowDetalleModal(false)}>Cerrar</Button>
