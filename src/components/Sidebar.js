@@ -50,7 +50,7 @@ function Sidebar() {
   return (
     <div className={`sidebar ${isSidebarOpen ? '' : 'closed'}`}>
       <button className="toggle-btn" onClick={toggleSidebar}>
-        {isSidebarOpen ? '⮜' : '⮞'}
+        {isSidebarOpen ? '≣' : '≣'}
       </button>
       <ul>
 
@@ -98,6 +98,20 @@ function Sidebar() {
                 <li><a href="/gestion-categoria">Gestión de Categorias</a></li>
                 <li><a href="/gestion-detalle-producto">Gestión de DetallesProducto</a></li>
                 <li><a href="/gestion-producto-categoria">Asignar Categoria</a></li>
+              </ul>
+            )}
+          </>
+        )}
+
+        {userRole === 'SuperUsuario' && (
+          <>
+            <li onClick={() => handleMenuClick('compra')}>
+              Gestionar Compra {activeMenu === 'compra' ? '▲' : '▼'}
+            </li>
+            {activeMenu === 'compra' && (
+              <ul className="menuCompra">
+                <li><a href="/nota-compra">Gestionar Nota Compra</a></li>
+                <li><a href="/detalle-compra">Asignar Compra</a></li>
               </ul>
             )}
           </>
