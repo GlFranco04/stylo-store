@@ -101,7 +101,7 @@ function GestionNotaCompra() {
   const handleVerDetalles = (notaId) => {
     NotaCompraService.obtenerNotaCompraPorId(notaId)
       .then(response => {
-        setDetalleCompra(response.data.detalleCompras);
+        setDetalleCompra(response.data.detalleCompras || []);
         setShowDetalleModal(true);
       })
       .catch(error => {
@@ -215,7 +215,7 @@ function GestionNotaCompra() {
             <Modal.Title>Detalles de Compra</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            {detalleCompra.length > 0 ? (
+            {Array.isArray(detalleCompra) && detalleCompra.length > 0 ? (
               <table className="table">
                 <thead>
                   <tr>
