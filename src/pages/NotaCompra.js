@@ -10,11 +10,15 @@ function GestionNotaCompra() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [nuevaNotaCompra, setNuevaNotaCompra] = useState({
     sucursal: { id: '' },
-    fechaVenta: '',  // Se asignará automáticamente la fecha actual en la creación
+    fechaVenta: '', // Se asignará automáticamente la fecha actual en la creación
     total: 0,
     estado: true
   });
-  const [sucursales, setSucursales] = useState([]);  // Lista de sucursales
+  const [sucursales, setSucursales] = useState([]); // Lista de sucursales
+  const [buscarId, setBuscarId] = useState(''); // Estado para almacenar el ID a buscar
+  const [notaCompraEncontrada, setNotaCompraEncontrada] = useState(null); // Nota de compra encontrada
+  const [detalleCompra, setDetalleCompra] = useState([]); // Detalles de la nota compra
+  const [showDetalleModal, setShowDetalleModal] = useState(false); // Modal para mostrar detalles de compra
 
   useEffect(() => {
     cargarNotasCompra();
@@ -75,6 +79,36 @@ function GestionNotaCompra() {
       });
   };
 
+  // Buscar una nota de compra por ID
+  const handleBuscarPorId = () => {
+    if (!buscarId) {
+      alert('Por favor, ingrese un ID de nota de compra.');
+      return;
+    }
+
+    NotaCompraService.obtenerNotaCompraPorId(buscarId)
+      .then(response => {
+        setNotaCompraEncontrada(response.data);
+      })
+      .catch(error => {
+        console.error('Error al buscar la nota de compra:', error);
+        alert('Nota de compra no encontrada');
+        setNotaCompraEncontrada(null);
+      });
+  };
+
+  // Manejar la visualización de los detalles de compra para una nota específica
+  const handleVerDetalles = (notaId) => {
+    NotaCompraService.obtenerNotaCompraPorId(notaId)
+      .then(response => {
+        setDetalleCompra(response.data.detalleCompras);
+        setShowDetalleModal(true);
+      })
+      .catch(error => {
+        console.error('Error al obtener los detalles de compra:', error);
+      });
+  };
+
   if (loading) {
     return <div>Cargando notas de compra...</div>;
   }
@@ -85,6 +119,31 @@ function GestionNotaCompra() {
       <div className="main-content">
         <h1>Gestión de Notas de Compra</h1>
 
+        {/* Buscar nota de compra por ID */}
+        <div className="buscar-nota-compra">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Buscar nota de compra por ID"
+            value={buscarId}
+            onChange={(e) => setBuscarId(e.target.value)}
+          />
+          <button className="btn btn-info" onClick={handleBuscarPorId}>
+            Buscar
+          </button>
+        </div>
+
+        {/* Mostrar detalles de la nota de compra encontrada */}
+        {notaCompraEncontrada && (
+          <div className="nota-compra-encontrada mt-4">
+            <h3>Nota de Compra Encontrada</h3>
+            <p><strong>ID:</strong> {notaCompraEncontrada.id}</p>
+            <p><strong>Fecha:</strong> {notaCompraEncontrada.fechaVenta}</p>
+            <p><strong>Total:</strong> {notaCompraEncontrada.total}</p>
+            <p><strong>Sucursal:</strong> {notaCompraEncontrada.sucursal ? notaCompraEncontrada.sucursal.nombre : 'Sin sucursal'}</p>
+          </div>
+        )}
+
         {/* Tabla de notas de compra */}
         <table className="table mt-4">
           <thead>
@@ -93,6 +152,7 @@ function GestionNotaCompra() {
               <th>Fecha</th>
               <th>Monto</th>
               <th>Sucursal</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -102,6 +162,11 @@ function GestionNotaCompra() {
                 <td>{nota.fechaVenta}</td>
                 <td>{nota.total}</td>
                 <td>{nota.sucursal ? nota.sucursal.nombre : 'Sin sucursal'}</td>
+                <td>
+                  <button className="btn btn-info" onClick={() => handleVerDetalles(nota.id)}>
+                    Ver Detalles
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -141,6 +206,38 @@ function GestionNotaCompra() {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowCreateModal(false)}>Cancelar</Button>
+          </Modal.Footer>
+        </Modal>
+
+        {/* Modal para mostrar detalles de compra */}
+        <Modal show={showDetalleModal} onHide={() => setShowDetalleModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Detalles de Compra</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cantidad</th>
+                  <th>Subtotal</th>
+                  <th>Producto</th>
+                </tr>
+              </thead>
+              <tbody>
+                {detalleCompra.map(detalle => (
+                  <tr key={detalle.id}>
+                    <td>{detalle.id}</td>
+                    <td>{detalle.cantidad}</td>
+                    <td>{detalle.subtotal}</td>
+                    <td>{detalle.detalleProducto ? detalle.detalleProducto.nombre : 'Sin producto'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDetalleModal(false)}>Cerrar</Button>
           </Modal.Footer>
         </Modal>
       </div>
