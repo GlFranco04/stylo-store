@@ -27,6 +27,10 @@ const crearNotaCompra = (notaCompra) => {
   return axios.post(API_URL, notaCompra, config);
 };
 
+const obtenerDetallesCompraPorNotaCompraId = (notaCompraId) => {
+  return axios.get(`https://stylo-storebackend-production.up.railway.app/api/detalle-compra/nota-compra/${notaCompraId}`, config);
+};
+
 // Actualizar una nota de compra
 const actualizarNotaCompra = (id, notaCompra) => {
   return axios.put(`${API_URL}/${id}`, notaCompra, config);
@@ -42,5 +46,6 @@ export default {
   obtenerNotaCompraPorId,
   crearNotaCompra,
   actualizarNotaCompra,
-  eliminarNotaCompra
+  eliminarNotaCompra,
+  obtenerDetallesCompraPorNotaCompraId
 };

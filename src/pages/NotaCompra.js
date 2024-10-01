@@ -99,15 +99,16 @@ function GestionNotaCompra() {
 
   // Manejar la visualización de los detalles de compra para una nota específica
   const handleVerDetalles = (notaId) => {
-    NotaCompraService.obtenerNotaCompraPorId(notaId)
+    NotaCompraService.obtenerDetallesCompraPorNotaCompraId(notaId)
       .then(response => {
-        setDetalleCompra(response.data.detalleCompras || []);
+        setDetalleCompra(response.data || []);
         setShowDetalleModal(true);
       })
       .catch(error => {
         console.error('Error al obtener los detalles de compra:', error);
       });
   };
+
 
   if (loading) {
     return <div>Cargando notas de compra...</div>;
